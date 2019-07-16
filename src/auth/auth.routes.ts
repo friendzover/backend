@@ -38,7 +38,7 @@ class Auth {
       }
     });
 
-    this.router.post('/signup', async (req, res) => {
+    this.router.put('/signup', async (req, res) => {
       try {
         const body = req.body;
         const signup = await auth.signup(body);
