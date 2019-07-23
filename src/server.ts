@@ -7,6 +7,7 @@ import * as cors from "cors";
 import auth from "./auth/auth.controller";
 
 import Auth from "./auth/auth.routes";
+import Food from "./food/food.routes";
 
 class Server {
 	public server: Express;
@@ -37,6 +38,7 @@ class Server {
 
 	private mountRoutes(): void {
 		this.server.use("/auth", Auth);
+		this.server.use("/food", Food);
 	}
 }
 

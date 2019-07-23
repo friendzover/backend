@@ -2,7 +2,7 @@ import * as express from 'express';
 
 import auth from './auth.controller';
 
-class Auth {
+class AuthRouter {
   public router: express.Router;
 
   constructor() {
@@ -82,4 +82,4 @@ class Auth {
   }
 }
 
-export default new Auth().router;
+export default new AuthRouter().router;

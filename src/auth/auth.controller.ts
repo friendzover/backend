@@ -3,12 +3,11 @@ import * as uniqid from "uniqid";
 
 import Mailer from "../mailer/mailer.controller";
 
-import User, { IUserModel } from "../models/user";
-import { IUser } from "../interfaces/user";
+import User, { UserModel } from "../models/user";
 import { LoginResponse, UserResponse } from "../interfaces/auth";
 
 class AuthController {
-	private generateToken(user: IUserModel): LoginResponse {
+	private generateToken(user: UserModel): LoginResponse {
 		const token = jwt.sign(
 			{
 				_id: user._id
@@ -54,7 +53,7 @@ class AuthController {
 		}
 	}
 
-	public async signup(body: IUser): Promise<LoginResponse> {
+	public async signup(body: UserModel): Promise<LoginResponse> {
 		const { email, password, firstName, lastName } = body;
 		const verifyExp = new Date();
 		verifyExp.setDate(verifyExp.getDate() + 1);
@@ -133,7 +132,7 @@ class AuthController {
 		}
 	}
 
-	public authenticate = (req: any, _: any, next: Function) => {
+	public authenticate = (req: any, res: any, next: Function) => {
 		const token = req.get("token") ? req.get("token") : null;
 		if (token === null) {
 			req.user = null;
@@ -142,6 +141,12 @@ class AuthController {
 				payload: null
 			};
 			req.user = decodedToken.payload;
+		}
+
+		if (req.user === null) {
+			res.status(401).json({
+				error: 'must be logged in'
+			});
 		}
 
 		next();

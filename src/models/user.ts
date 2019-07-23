@@ -1,6 +1,6 @@
 import * as validator from "validator";
 
-import { Document, Schema, Model, model, HookNextFunction } from "mongoose";
+import { Document, Schema, model, HookNextFunction } from "mongoose";
 import { Doc } from "../interfaces/doc";
 import { User } from "../interfaces/user";
 
@@ -44,10 +44,18 @@ export const UserSchema: Schema = new Schema(
 			type: String,
 			required: true
 		},
-		friends: {
-			type: Schema.Types.ObjectId,
-			ref: "Friends"
-		},
+		friends: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Friend"
+			}
+		],
+		foods: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Food"
+			}
+		],
 		verified: {
 			type: Boolean,
 			required: true

@@ -12,11 +12,8 @@ export const FriendSchema: Schema = new Schema({
 	lastName: {
 		type: String
 	},
-	createdAt: {
-		type: Date
-	},
-	updatedAt: {
-		type: Date
+	phoneNumb: {
+		type: Number
 	},
 	allergies: [
 		{
@@ -25,14 +22,16 @@ export const FriendSchema: Schema = new Schema({
 	],
 	likes: [
 		{
-			type: String // will be food schema
+			type: Schema.Types.ObjectId,
+			ref: "Food"
 		}
 	],
 	dislikes: [
 		{
-			type: String // will be food schema
+			type: Schema.Types.ObjectId,
+			ref: "Food"
 		}
-	]
+	],
 });
 
 export default model<FriendModel>("Friend", FriendSchema);

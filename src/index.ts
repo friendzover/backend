@@ -1,14 +1,14 @@
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 dotenv.config();
 
-import server from './server';
+import server from "./server";
 
 const port = process.env.PORT || 4200;
 
-server.listen(port, () => {
-  // if (error) {
-  //   return console.log(error);
-  // }
+server.on("error", error => {
+	return console.log(error);
+});
 
-  return console.log(`server is listening on ${port}`);
+server.listen(port, () => {
+	return console.log(`server is listening on ${port}`);
 });
