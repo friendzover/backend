@@ -45,7 +45,8 @@ class AuthController {
 
 	public async login(email: string, password: string): Promise<LoginResponse> {
 		const user = await User.findOne({ email });
-		const passMatch = await user.comparePassword(password);
+		const passMatch =
+			user !== null ? await user.comparePassword(password) : false;
 		if (passMatch) {
 			return this.generateToken(user);
 		} else {
@@ -113,13 +114,10 @@ class AuthController {
 		);
 	}
 
-	public async verify(
-		id: string,
-		verifyCode: string
-	): Promise<void> {
+	public async verify(id: string, verifyCode: string): Promise<void> {
 		const user = await User.findById(id);
 		const today = new Date();
-		
+
 		if (user.verifyExp < today) {
 			throw new Error("Verification link expired.");
 		} else if (user.verifyCode !== verifyCode) {
@@ -132,7 +130,7 @@ class AuthController {
 		}
 	}
 
-	public authenticate = (req: any, res: any, next: Function) => {
+	public authenticate = (req: any, _: any, next: Function) => {
 		const token = req.get("token") ? req.get("token") : null;
 		if (token === null) {
 			req.user = null;
@@ -143,9 +141,13 @@ class AuthController {
 			req.user = decodedToken.payload;
 		}
 
+		next();
+	};
+
+	public requireLogin = (req: any, res: any, next: Function) => {
 		if (req.user === null) {
 			res.status(401).json({
-				error: 'must be logged in'
+				error: "must be logged in"
 			});
 		}
 

@@ -50,7 +50,7 @@ class FoodRouter {
 			}
 		});
 
-		this.router.put("/new", auth.authenticate, async (req: any, res) => {
+		this.router.put("/new", auth.requireLogin, async (req: any, res) => {
 			try {
 				const food = await controller.newFood(req.body, req.user._id);
 				res.status(200).json({
