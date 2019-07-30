@@ -8,6 +8,7 @@ import auth from "./auth/auth.controller";
 
 import Auth from "./auth/auth.routes";
 import Food from "./food/food.routes";
+import Friend from "./friend/friend.routes";
 
 class Server {
 	public server: Express;
@@ -39,6 +40,7 @@ class Server {
 	private mountRoutes(): void {
 		this.server.use("/auth", Auth);
 		this.server.use("/food", Food);
+		this.server.use("/friend", Friend);
 	}
 }
 
