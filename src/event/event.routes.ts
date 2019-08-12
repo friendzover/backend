@@ -1,9 +1,9 @@
 import * as express from "express";
 
-import controller from "./food.controller";
+import controller from "./event.controller";
 import auth from "../auth/auth.controller";
 
-class FoodRouter {
+class EventRouter {
 	public router: express.Router;
 
 	constructor() {
@@ -12,9 +12,9 @@ class FoodRouter {
 		this.router.get("/user/:userId", async (req, res) => {
 			try {
 				const { userId } = req.params;
-				const foods = await controller.getFoodsByUser(userId);
+				const events = await controller.getEventsByUser(userId);
 				res.status(200).json({
-					foods
+					events
 				});
 			} catch (error) {
 				res.status(400).json({
@@ -25,9 +25,9 @@ class FoodRouter {
 
 		this.router.get("/get", async (_, res) => {
 			try {
-				const foods = await controller.getFoods();
+				const events = await controller.getEvents();
 				res.status(200).json({
-					foods
+					events
 				});
 			} catch (error) {
 				res.status(400).json({
@@ -36,12 +36,12 @@ class FoodRouter {
 			}
 		});
 
-		this.router.get("/get/:foodId", async (req, res) => {
+		this.router.get("/get/:eventId", async (req, res) => {
 			try {
-				const { foodId } = req.params;
-				const food = await controller.getFood(foodId);
+				const { eventId } = req.params;
+				const event = await controller.getEvent(eventId);
 				res.status(200).json({
-					food
+					event
 				});
 			} catch (error) {
 				res.status(400).json({
@@ -52,9 +52,9 @@ class FoodRouter {
 
 		this.router.put("/new", auth.requireLogin, async (req: any, res) => {
 			try {
-				const food = await controller.newFood(req.body, req.user._id);
+				const event = await controller.newEvent(req.body, req.user._id);
 				res.status(200).json({
-					food
+					event
 				});
 			} catch (error) {
 				res.status(400).json({
@@ -62,7 +62,25 @@ class FoodRouter {
 				});
 			}
 		});
+
+		this.router.put(
+			"/add/:eventId/:friendId",
+			auth.requireLogin,
+			async (req: any, res) => {
+				try {
+					const { eventId, friendId } = req.params;
+					const event = await controller.addFriend(req.user._id, eventId, friendId);
+					res.status(200).json({
+						event
+					});
+				} catch (error) {
+					res.status(400).json({
+						error: error.message
+					});
+				}
+			}
+		);
 	}
 }
 
-export default new FoodRouter().router;
+export default new EventRouter().router;

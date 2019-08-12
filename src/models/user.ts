@@ -56,6 +56,12 @@ export const UserSchema: Schema = new Schema(
 				ref: "Food"
 			}
 		],
+		events: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Event"
+			}
+		],
 		verified: {
 			type: Boolean,
 			required: true
