@@ -38,7 +38,7 @@
 		"ts-node": "^8.3.0",
 		"typescript": "^3.5.3",
 		"uniqid": "^5.0.3",
-		"validator": "^11.1.0"
+		"validator": "^13.7.0"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.1.7",
